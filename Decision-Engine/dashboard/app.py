@@ -1,8 +1,19 @@
 import streamlit as st
 from datetime import datetime
 
-st.set_page_config(page_title="Return Optimization Dashboard", layout="wide")
+st.set_page_config(page_title="Return Optimization Dashboard", layout="wide" , page_icon="🔄")
 
+st.markdown("""
+    <style>
+    /* Style only selectbox in the sidebar */
+    section[data-testid="stSidebar"] select {
+        background-color: #f5c542 !important; /* Light yellow */
+        color: black !important;
+        border-radius: 5px;
+        padding: 4px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 st.sidebar.title("Return Manager")
 sku_id = st.sidebar.text_input("Enter SKU ID", "SKU123")

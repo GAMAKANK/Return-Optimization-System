@@ -1,0 +1,17 @@
+[theme]
+base="light"
+backgroundColor="#FFE1FF"
+secondaryBackgroundColor="#F5EFFF"
+codeBackgroundColor="powderBlue"
+borderColor="mediumSlateBlue"
+primaryColor="forestGreen"
+
+[theme.sidebar]
+backgroundColor="#433878"
+secondaryBackgroundColor="lavender"
+borderColor="mediumSlateBlue"
+primaryColor="aliceBlue"
+textColor = "#E4B1F0"
+
+
+
