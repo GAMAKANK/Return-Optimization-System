@@ -7,6 +7,7 @@ import {
   Legend
 } from 'chart.js';
 import './index.css';
+import { useNavigate } from 'react-router-dom';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -40,7 +41,7 @@ function Dashboard() {
     datasets: [
       {
         label: 'Return Reasons',
-        data: [30, 15, 25, 10], 
+        data: [30, 15, 30, 25], 
         backgroundColor: ['#f87171', '#facc15', '#34d399', '#60a5fa'],
         borderWidth: 2,
       },
@@ -64,7 +65,7 @@ function Dashboard() {
     datasets: [
       {
         label: 'Sales vs Returns',
-        data: [200, 40], 
+        data: [90, 10], 
         backgroundColor: ['#4ade80', '#f87171'],
         borderWidth: 2,
       },
@@ -84,7 +85,7 @@ function Dashboard() {
     },
   },
 };
-
+const navigate = useNavigate();
 
   return (
     <>
@@ -164,6 +165,7 @@ function Dashboard() {
             <button
               type="button"
               className="bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-md mt-6 px-6 py-2 shadow w-full transition-all"
+              onClick={() => navigate('/analysis')}
             >
               Analyse
             </button>
