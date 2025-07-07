@@ -19,7 +19,7 @@ function Dashboard() {
     const { productId } = useParams();
   
 
-  // Find the selected product from the data by productId
+  //from product.json
   const product = data.find((p) => p.productId === productId);
 
 
