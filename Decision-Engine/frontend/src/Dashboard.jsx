@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import data from './data/products.json'; 
 import { Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -7,12 +9,20 @@ import {
   Legend
 } from 'chart.js';
 import './index.css';
-import { useNavigate } from 'react-router-dom';
+
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Dashboard() {
   const [cols, setCols] = useState(100);
+    const { productId } = useParams();
+  
+
+  // Find the selected product from the data by productId
+  const product = data.find((p) => p.productId === productId);
+
+
 
   useEffect(() => {
     function handleResize() {
@@ -28,13 +38,13 @@ function Dashboard() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const product = {
-    name: 'Mens Collar T-Shirt | Men Wear, Black, Size: M',
-    id: 'sku961237852',
-    batchNumber: 'BN-2025-A7',
-    price: 'Rs 1200.00',
-    imageUrl: '/images/collar-tshirt.png',
-  };
+  // const product = {
+  //   name: 'Mens Collar T-Shirt | Men Wear, Black, Size: M',
+  //   id: 'sku961237852',
+  //   batchNumber: 'BN-2025-A7',
+  //   price: 'Rs 1200.00',
+  //   imageUrl: '/images/collar-tshirt.png',
+  // };
 
   const returnReasonData = {
     labels: ['Wrong Size', 'Defective', 'Changed Mind', 'Other'],
@@ -196,36 +206,33 @@ const navigate = useNavigate();
       </div>
     </div>
 
-    {/* Product Card */}
-    <div className="bg-blue-700 shadow-xl rounded-xl max-w-lg w-full p-6 flex flex-col ms-auto">
- 
+    
+ {/* productt Card */}
+<div className="bg-blue-700 shadow-xl rounded-xl max-w-lg w-full p-6 flex flex-col ms-auto">
+
   <div className="flex justify-center mb-4">
     <img src="/images/walmartLogo.png" alt="logo" className="h-20 w-auto" />
   </div>
 
-  
   <h2 className="text-3xl font-bold text-white mb-6 text-center">Product Details</h2>
 
-  
   <div className="flex justify-center mb-6">
     <img
       src={product.imageUrl}
-      alt="Product"
+      alt={product.name}
       className="w-full h-64 object-contain bg-white rounded-lg p-2"
     />
   </div>
 
-  
   <h3 className="text-xl font-semibold text-white text-center mb-4 px-4">{product.name}</h3>
 
- 
   <div className="space-y-4">
     <div className="flex flex-col text-sm text-white">
       <label htmlFor="productId" className="mb-1 font-bold">ID:</label>
       <input
         type="text"
         id="productId"
-        value={product.id}
+        value={product.productId}
         readOnly
         className="bg-white text-black border border-purple-700 rounded px-3 py-2"
       />
@@ -252,13 +259,13 @@ const navigate = useNavigate();
     </div>
   </div>
 
-  
   <div className="flex justify-center mt-6 py-10">
-    <button className="bg-white text-blue-800 font-bold border-2 border-purple-700 rounded-lg px-8 py-2 hover:bg-gray-100 transition duration-200">
+    <button className="bg-white text-blue-800 font-bold border-2 border-purple-700 rounded-lg px-8 py-2 ">
       Scan
     </button>
   </div>
 </div>
+
 </div>
 </div>
 

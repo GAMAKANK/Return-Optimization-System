@@ -5,7 +5,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import Dashboard from './Dashboard';
-import Homepage from './Homepage';
+import SearchPage from './SearchPage ';
 import Analysis from './Analysis';
 import { Router } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,0 +1,61 @@
+[{
+    "name": "Mens Collar T-Shirt | Men Wear, Black, Size: M",
+  "productId": "sku961237852",
+  "batchNumber": "BN-2025-A7",
+  "price": "Rs 1199.00",
+  "imageUrl": "/images/collar-tshirt.png"
+},
+{
+    "name":"Women Oversized T-Shirt | Casual Wear, Beige, Size: M",
+    "productId": "sku961237859",
+    "batchNumber": "BN-2025-A14",
+    "price": "Rs 899.00",
+    "imageUrl": "/images/tshirtwomen.png"
+},
+{
+    "name" : "Gucci Women Handbag | Leather Purse",
+    "productId": "sku961237856",
+    "batchNumber": "BN-2025-A11",
+    "price": "Rs 2999.00",
+    "imageUrl": "/images/purse.png"
+},
+{
+    "name":"boAt Rockerz 255 | Bluetooth Headphones",
+    "productId": "sku961237854",
+    "batchNumber": "BN-2025-A9",
+    "price": "Rs 799.00",
+    "imageUrl": "/images/bluetooth.png"
+},
+{
+    "name":"boult Airdopes 91 | 45Hrs Battery",
+    "productId": "sku961237855",
+    "batchNumber": "BN-2025-A10",         
+    "price": "Rs 999.00",
+    "imageUrl": "/images/boult.png"
+
+},
+
+{
+    "name":"Speaker | JBL Flip 6",
+    "productId": "sku961237857",
+    "batchNumber": "BN-2025-A12",   
+    "price": "Rs 5999.00",
+    "imageUrl": "/images/speaker.png"
+},
+{
+    "name":"Lamp | Philips LED Table Lamp",
+    "productId": "sku961237858",
+    "batchNumber": "BN-2025-A13",
+    "price": "Rs 799.00",
+    "imageUrl": "/images/lamp.png"
+},
+{
+    "name":"Daikin 1.5 Ton 5 Star Inverter Split AC",
+    "productId": "sku961237853",
+    "batchNumber": "BN-2025-A8",
+    "price": "Rs 44999.00",
+    "imageUrl": "/images/ac.png"
+}
+
+
+]

@@ -58,7 +58,7 @@ function Analysis() {
     
 
     <div className='flex justify-center items-center '>
-      <button className='bg-blue-800 text-white font-bold py-3 px-10 rounded-2xl hover:bg-blue-900 transition-all duration-300 shadow-lg' onClick={() => navigate('/Dashboard')}>Ok </button>
+      <button className='bg-blue-800 text-white font-bold py-3 px-10 rounded-2xl hover:bg-blue-900 transition-all duration-300 shadow-lg' onClick={() => navigate('/')}>Ok </button>
     </div>
     </>
   )
