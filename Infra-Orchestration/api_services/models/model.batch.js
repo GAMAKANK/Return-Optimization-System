@@ -3,36 +3,27 @@ const mongoose = require('mongoose');
 const batchSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product', // Reference to the Product model
+        ref: 'Product',
         required: true
     },
-    batchNumber: { // Unique identifier for this specific batch
+    batchId: {
         type: String,
         required: true,
-        unique: true,
-        trim: true
+        unique: true
     },
     manufacturingDate: {
         type: Date,
         required: true
     },
     expiryDate: {
-        type: Date,
-        required: true
+        type: Date
     },
-    initialQuantity: { // The total quantity produced in this batch
+    quantity: {
         type: Number,
-        required: true,
-        min: 0
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
+        required: true
     }
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Batch', batchSchema);
