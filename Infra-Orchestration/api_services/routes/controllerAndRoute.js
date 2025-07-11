@@ -39,7 +39,6 @@ router.post('/api/products', async (req, res) => {
         const newProduct = new Product({
             name: productData.name,
             sku: productData.sku,
-            category: productData.category,
             price: productData.price,
             image: productData.image
         });
@@ -65,10 +64,6 @@ router.post('/api/warehouse', async (req, res) => {
                 state: warehouseData.address.state,
                 zipCode: warehouseData.address.zipCode,
                 country: warehouseData.address.country
-            },
-            location: {
-                type: 'Point',
-                coordinates: [warehouseData.location.longitude, warehouseData.location.latitude]
             },
             contactPhone: warehouseData.contactPhone,
             contactEmail: warehouseData.contactEmail,
