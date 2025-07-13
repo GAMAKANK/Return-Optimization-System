@@ -149,9 +149,28 @@ const navigate = useNavigate();
           </div>
 
           <div className="w-full max-w-xs lg:ml-4">
-            <label className="text-md text-black font-semibold">Return Date:</label>
+            <label className="text-md text-black font-semibold">Manufacturing Date:</label>
             <input
               type="date"
+              required
+              className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
+            />
+          </div>
+        </div>
+         <div className="mb-6 flex flex-col lg:flex-row gap-4">
+          <div className="w-full max-w-xs">
+            <label className="text-md text-black font-semibold">Price:</label>
+             <input
+              type="number"
+              required
+              className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
+            />
+          </div>
+
+          <div className="w-full max-w-xs lg:ml-4">
+            <label className="text-md text-black font-semibold">Days Since Order</label>
+            <input
+              type="number"
               required
               className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
             />
