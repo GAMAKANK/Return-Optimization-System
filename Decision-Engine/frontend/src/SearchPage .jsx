@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function SearchPage () {
   return (
     <>
-    <div className='p-4'>
+    <div className="">
       {/* header */}
         <div className= ' flex flex-row bg-blue-700 '>
             <div className='mt-2 ml-5'>
