@@ -138,4 +138,80 @@ router.get('/shelf/:shelfNumber/products', async (req, res) => {
     }
 });
 
+
+
+router.post('/inventory/assign', async (req, res) => {
+try {
+const { productId, batchId, quantityToAdd } = req.body;
+
+if (!productId || !batchId || !quantityToAdd) {
+  return res.status(400).json({ error: 'productId, batchId, and quantityToAdd are required.' });
+}
+
+// Step 1: Try to find an existing shelf with same product+batch that has capacity
+const existingShelf = await Shelf.findOne({
+  productId,
+  batchId,
+  quantity: { $lt: 500 }
+});
+
+if (existingShelf) {
+  const newQuantity = existingShelf.quantity + quantityToAdd;
+
+  if (newQuantity > 500) {
+    return res.status(400).json({ error: 'Cannot exceed shelf capacity (500).' });
+  }
+
+  existingShelf.quantity = newQuantity;
+  await existingShelf.save();
+
+  // find warehouse for this shelf
+  const inventoryLink = await WarehouseInventory.findOne({ shelfNumber: existingShelf.shelfNumber });
+  const warehouse = inventoryLink
+    ? await Warehouse.findOne({ id: inventoryLink.warehouseId })
+    : null;
+
+  return res.status(200).json({
+    message: 'Shelf updated successfully',
+    shelf: existingShelf,
+    warehouse
+  });
+}
+
+// Step 2: No shelf found, so find an empty shelf to place new product+batch
+const emptyShelf = await Shelf.findOne({
+  productId: null,
+  batchId: null,
+  quantity: 0
+});
+
+if (!emptyShelf) {
+  return res.status(404).json({ error: 'No empty shelf available.' });
+}
+
+if (quantityToAdd > 500) {
+  return res.status(400).json({ error: 'Cannot place more than 500 units on a shelf.' });
+}
+
+emptyShelf.productId = productId;
+emptyShelf.batchId = batchId;
+emptyShelf.quantity = quantityToAdd;
+await emptyShelf.save();
+
+const inventoryLink = await WarehouseInventory.findOne({ shelfNumber: emptyShelf.shelfNumber });
+const warehouse = inventoryLink
+  ? await Warehouse.findOne({ id: inventoryLink.warehouseId })
+  : null;
+
+return res.status(201).json({
+  message: 'Shelf created and product placed successfully',
+  shelf: emptyShelf,
+  warehouse
+});
+} catch (err) {
+console.error('Inventory assign error:', err);
+res.status(500).json({ error: 'Server error occurred.' });
+}
+});
+
 module.exports = router;
