@@ -1,20 +1,12 @@
+// Analysis.js
 import React from 'react';
 import { FaShieldAlt } from 'react-icons/fa';
-import { useNavigate, useLocation } from 'react-router-dom';
 
-function Analysis() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const result = location.state?.result;
-  const confidence = location.state?.confidence;
-
-  // If user has not entered data, show message
+function Analysis({ result, confidence, onClose }) {
   if (!result) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl text-red-500 font-semibold">
-          No analysis data found. Please submit a product first.
-        </p>
+      <div className="text-center text-red-500 text-xl font-semibold">
+        No analysis data found. Please submit a product first.
       </div>
     );
   }
@@ -37,14 +29,14 @@ function Analysis() {
         </div>
       </div>
 
-      <div className="p-8 mb-6 mt-6">
+      <div className="p-8  mt-6">
         <div className="flex lg:flex-row flex-col">
           <p className="text-2xl font-bold">Suggested Actions :</p>
           <p className="ml-2 mt-1 text-xl font-semibold">{result}</p>
         </div>
       </div>
 
-      <div className="p-8 mb-6">
+      <div className="p-8 mb-4">
         <div className="flex lg:flex-row flex-col">
           <p className="text-2xl font-bold">Inventory & Batch Matching :</p>
         </div>
@@ -62,7 +54,7 @@ function Analysis() {
       <div className="flex justify-center items-center">
         <button
           className="bg-blue-800 text-white font-bold py-3 px-10 rounded-2xl hover:bg-blue-900 transition-all duration-300 shadow-lg"
-          onClick={() => navigate('/')}
+          onClick={onClose}
         >
           Ok
         </button>
