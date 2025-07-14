@@ -1,24 +1,23 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../ml_model')))
 from flask import Flask, request, jsonify
-from flask_cors import CORS #for 403 error
+from flask_cors import CORS
+import sys, os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../ml_model')))
 from predict import get_prediction
 
 app = Flask(__name__)
-CORS(app) #giving access
+CORS(app)  # Fix 403 CORS issues
 
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
     try:
-        print("Received Data:", data)  # Add this
+        print("Received:", data)
         result = get_prediction(data)
         return jsonify({"action": result})
     except Exception as e:
-        print("Error:", e)  # Add this
+        print("Error:", e)
         return jsonify({"error": str(e)}), 400
-
 
 @app.route("/", methods=["GET"])
 def home():

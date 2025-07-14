@@ -3,8 +3,6 @@ import joblib
 import pandas as pd
 from datetime import datetime
 
-model_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../ml_model"))
-
 model_path = os.path.join(os.path.dirname(__file__), "xgb_classifier_model.pkl")
 encoder_path = os.path.join(os.path.dirname(__file__), "label_encoder.pkl")
 columns_path = os.path.join(os.path.dirname(__file__), "expected_columns.pkl")
@@ -15,30 +13,35 @@ expected_columns = joblib.load(columns_path)
 
 def get_prediction(data: dict):
     try:
-        # Convert Manufacturing Date to Product_Age if present
         if "Manufacturing Date" in data:
+            manu_date = datetime.strptime(data["Manufacturing Date"], "%Y-%m-%d")
+            data["Product_Age"] = (datetime.now() - manu_date).days
             del data["Manufacturing Date"]
 
-        # Ensure Product_Age is present
-        if "Product_Age" not in data:
-            raise ValueError("expected Product_Age in input data")
+        if "Price in INR (Extracted Price * 80)" in data:
+            price = data["Price in INR (Extracted Price * 80)"]
+            if price < 500:
+                data["Price_range"] = "Low"
+            elif price < 1500:
+                data["Price_range"] = "Mid"
+            else:
+                data["Price_range"] = "High"
+            del data["Price in INR (Extracted Price * 80)"]
 
+        # Convert to DataFrame and one-hot encode
         df = pd.DataFrame([data])
-        df = pd.get_dummies(df)
+        df_encoded = pd.get_dummies(df)
 
-        # Load expected columns
-        all_expected_columns = joblib.load(os.path.join(os.path.dirname(__file__), "expected_columns.pkl"))
+        # Align with expected columns
+        for col in expected_columns:
+            if col not in df_encoded.columns:
+                df_encoded[col] = 0
 
-        for col in all_expected_columns:
-            if col not in df.columns:
-                df[col] = 0
+        df_encoded = df_encoded[expected_columns]
 
-        df = df[all_expected_columns]  # Correct column order
-
-        pred_encoded = model.predict(df)[0]
+        # Predict
+        pred_encoded = model.predict(df_encoded)[0]
         return le.inverse_transform([pred_encoded])[0]
 
     except Exception as e:
         raise ValueError(f"Prediction failed: {e}")
-
-
