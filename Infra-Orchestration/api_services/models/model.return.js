@@ -51,4 +51,4 @@ const returnSchema = new mongoose.Schema({
 }, );
 
 
-model.exports = mongoose.model('Return', returnSchema);
+module.exports = mongoose.model('Return', returnSchema);

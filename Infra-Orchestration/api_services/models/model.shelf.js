@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const shelfSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
