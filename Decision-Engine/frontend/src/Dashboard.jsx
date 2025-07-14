@@ -24,6 +24,7 @@ function Dashboard() {
     const [price, setPrice] = useState("");
     const [daysSinceOrder, setDaysSinceOrder] = useState("");
     const [customerType, setCustomerType] = useState("New");
+    const [category, setCategory] = useState("New");
 
 const [showModal, setShowModal] = useState(false);
 const [predictionResult, setPredictionResult] = useState(null);
@@ -175,6 +176,8 @@ const navigate = useNavigate();
             </select>
           </div>
 
+          
+
           <div className="w-full max-w-xs lg:ml-4">
             <label className="text-md text-black font-semibold">Manufacturing Date:</label>
             <input
@@ -210,6 +213,33 @@ const navigate = useNavigate();
           </div>
         </div>
 
+        <div className="mb-6 mt-6">
+          <label className="text-md text-black font-semibold">Item Category:</label>
+          <br/>
+          <select
+            className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full max-w-xs"
+            defaultValue="Other"
+            value={category}
+            onChange={(e) => setReason(e.target.value)}
+          >
+            <option>Electronics</option>
+            <option>Smart Home</option>
+            <option>Office Supplies</option>
+            <option>Home & Kitchen</option>
+            <option>Health & Personal Care</option>
+            <option>Beauty</option>
+            <option>Sports & Outdoors</option>
+            <option>Bags & Luggage</option>
+            <option>Fashion</option>
+            <option>Apparel</option>
+            <option>Footwear</option>
+            <option>Baby Products</option>
+            <option>Lawn & Garden</option>
+
+          </select>
+          
+        </div>
+        
         <div className="mb-6 flex flex-col lg:flex-row gap-4">
           <div className="w-full max-w-xs">
             <label className="text-md text-black font-semibold">Customer Type:</label>
