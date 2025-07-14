@@ -9,7 +9,8 @@ import {
   Legend
 } from 'chart.js';
 import './index.css';
-
+import Analysis from './Analysis';
+import { useLocation } from 'react-router-dom';
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -24,6 +25,9 @@ function Dashboard() {
     const [daysSinceOrder, setDaysSinceOrder] = useState("");
     const [customerType, setCustomerType] = useState("New");
 
+const [showModal, setShowModal] = useState(false);
+const [predictionResult, setPredictionResult] = useState(null);
+const [confidence, setConfidence] = useState(null);
 
   //from product.json
   const product = data.find((p) => p.productId === productId);
@@ -260,7 +264,9 @@ const navigate = useNavigate();
                   });
 
                   const result = await res.json();
-                  navigate('/analysis', { state: { result: result.action, confidence: result.confidence } });
+                  setPredictionResult(result.action);
+                  setConfidence(result.confidence);
+                  setShowModal(true);
 
                 } catch (error) {
                   console.error("Prediction Error:", error);
@@ -350,14 +356,32 @@ const navigate = useNavigate();
   </div>
 
   <div className="flex justify-center mt-6 py-10">
-    <button className="bg-white text-blue-800 font-bold border-2 border-purple-700 rounded-lg px-8 py-2 ">
-      Scan
+    <button className="bg-white text-blue-800 font-bold border-2 rounded-lg px-8 py-2 " onClick={() => navigate(`/`)}>
+      Explore More
     </button>
   </div>
 </div>
 
 </div>
 </div>
+{showModal && predictionResult && (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    onClick={(e) => {
+      if (e.target === e.currentTarget) setShowModal(false);
+    }}
+  >
+    <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full relative overflow-y-auto max-h-[90vh] p-6">
+      <Analysis
+        result={predictionResult}
+        confidence={confidence}
+        onClose={() => setShowModal(false)}
+      />
+    </div>
+  </div>
+)}
+
+
 
     </>
   );
