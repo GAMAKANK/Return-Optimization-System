@@ -40,8 +40,13 @@ def get_prediction(data: dict):
         df_encoded = df_encoded[expected_columns]
 
         # Predict
-        pred_encoded = model.predict(df_encoded)[0]
-        return le.inverse_transform([pred_encoded])[0]
+        # Predict
+        probs = model.predict_proba(df_encoded)
+        pred_encoded = probs.argmax(axis=1)[0]
+        confidence = probs[0][pred_encoded]
+        action = le.inverse_transform([pred_encoded])[0]
+        return action, confidence
+
 
     except Exception as e:
         raise ValueError(f"Prediction failed: {e}")

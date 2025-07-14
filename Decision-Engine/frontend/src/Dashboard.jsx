@@ -15,12 +15,31 @@ import './index.css';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Dashboard() {
-  const [cols, setCols] = useState(100);
+    const [cols, setCols] = useState(100);
     const { productId } = useParams();
-  
+    const [reason, setReason] = useState("Other");
+    const [condition, setCondition] = useState("Damaged");
+    const [manufactureDate, setManufactureDate] = useState("");
+    const [price, setPrice] = useState("");
+    const [daysSinceOrder, setDaysSinceOrder] = useState("");
+    const [customerType, setCustomerType] = useState("New");
+
 
   //from product.json
   const product = data.find((p) => p.productId === productId);
+
+  const getPriceRange = (price) => {
+    if (price < 500) return "Low";
+    else if (price < 1500) return "Mid";
+    else return "High";
+  };
+
+  const getProductAge = (dateStr) => {
+    const manuDate = new Date(dateStr);
+    const today = new Date();
+    const diffTime = today - manuDate;
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24)); // days
+  };
 
 
 
@@ -118,6 +137,8 @@ const navigate = useNavigate();
           <select
             className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full max-w-xs"
             defaultValue="Other"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
           >
             <option>Wrong Size</option>
             <option>Defective</option>
@@ -140,6 +161,8 @@ const navigate = useNavigate();
             <select
               className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
               defaultValue="Damaged"
+              value = {condition}
+              onChange={(e) => setCondition(e.target.value)}
             >
               <option>Unopened</option>
               <option>Like New</option>
@@ -154,6 +177,8 @@ const navigate = useNavigate();
               type="date"
               required
               className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
+              value={manufactureDate}
+              onChange={(e) => setManufactureDate(e.target.value)}
             />
           </div>
         </div>
@@ -164,6 +189,8 @@ const navigate = useNavigate();
               type="number"
               required
               className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
 
@@ -173,6 +200,8 @@ const navigate = useNavigate();
               type="number"
               required
               className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
+              value={daysSinceOrder}
+              onChange={(e) => setDaysSinceOrder(e.target.value)}
             />
           </div>
         </div>
@@ -183,6 +212,8 @@ const navigate = useNavigate();
             <select
               className="border-2 border-blue-400 rounded-md mt-2 px-2 py-1 w-full"
               defaultValue="Other"
+              value={customerType}
+              onChange={(e) => setCustomerType(e.target.value)}
             >
               <option>New</option>
               <option>Returning</option>
@@ -194,7 +225,47 @@ const navigate = useNavigate();
             <button
               type="button"
               className="bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-md mt-6 px-6 py-2 shadow w-full transition-all"
-              onClick={() => navigate('/analysis')}
+              onClick={async () => {
+                if (!price || !manufactureDate || !daysSinceOrder) {
+                  alert("Please fill all fields");
+                  return;
+                }
+                const getPriceRange = (price) => {
+                  if (price < 500) return "Low";
+                  else if (price < 1500) return "Mid";
+                  else return "High";
+                };
+                const getProductAge = (dateStr) => {
+                  const manuDate = new Date(dateStr);
+                  const today = new Date();
+                  const diffTime = today - manuDate;
+                  return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                };
+
+                const requestBody = {
+                  Category: product.category, // Ensure this is present in products.json
+                  Reason: reason,
+                  Condition: condition,
+                  Days_since_order: parseInt(daysSinceOrder),
+                  Customer_type: customerType,
+                  Product_Age: getProductAge(manufactureDate),
+                  Price_range: getPriceRange(parseInt(price))
+                };
+
+                try {
+                  const res = await fetch("http://127.0.0.1:5000/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestBody)
+                  });
+
+                  const result = await res.json();
+                  navigate('/analysis', { state: { result: result.action, confidence: result.confidence } });
+
+                } catch (error) {
+                  console.error("Prediction Error:", error);
+                }
+              }}
             >
               Analyse
             </button>

@@ -13,8 +13,12 @@ def predict():
     data = request.json
     try:
         print("Received:", data)
-        result = get_prediction(data)
-        return jsonify({"action": result})
+        result, prob = get_prediction(data)
+        return jsonify({
+            "action": result,
+            "confidence": float(prob)
+        })
+
     except Exception as e:
         print("Error:", e)
         return jsonify({"error": str(e)}), 400
