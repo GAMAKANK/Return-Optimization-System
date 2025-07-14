@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ml-api
+    env: python
+    buildCommand: |
+      cd Decision-Engine/ml_api
+      pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    workingDir: Decision-Engine/ml_api
+    branch: master
+    autoDeploy: true
